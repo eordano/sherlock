@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 import { routeReducer as router } from 'redux-simple-router'
-import counter from './modules/counter'
+import simpleKeys from './modules/simpleKeys'
 
 export default combineReducers({
-  counter,
+  simpleKeys,
   router
 })

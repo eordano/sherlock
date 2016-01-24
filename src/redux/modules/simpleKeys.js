@@ -11,7 +11,7 @@ reduce('ADD_PRIVATE_KEY', (state, { payload }) => {
     return state
   }
   return merge({}, state, { [key.toString()]: key })
-}, {})
+})
 
 reduce('DELETE_PRIVATE_KEY', (state, { payload }) => {
   const key = bitcore.PrivateKey(payload)

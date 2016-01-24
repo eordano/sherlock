@@ -1,5 +1,6 @@
 .DS_STORE
 *.log
+*.sw[a-z]
 
 node_modules
 

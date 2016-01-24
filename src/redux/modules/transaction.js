@@ -1,14 +1,50 @@
+import _ from 'lodash'
+import { handleActions } from 'redux-actions'
+import { merge, omit } from 'lodash'
+import definer from '../utils/definer'
 import bitcore from 'bitcore-lib'
 
-export const NEW_TRANSACTION = 'NEW_TRANSACTION'
+const reduce = definer(module.exports)
 
-export const ADD_INPUT = 'ADD_INPUT'
-export const ADD_SIGNATURE = 'ADD_SIGNATURE'
-export const ADD_OUTPUT = 'ADD_OUTPUT'
+reduce('NEW_TRANSACTION', (state, { payload }) => return new bitcore.Transaction())
 
-export const REMOVE_INPUT = 'REMOVE_INPUT'
-export const REMOVE_OUTPUT = 'REMOVE_OUTPUT'
-export const REMOVE_SIGNATURE = 'REMOVE_SIGNATURE'
+reduce('ADD_INPUT', (state, { payload }) => {
+  return new Transaction(state).from(payload)
+})
 
-export const SET_VERSION = 'SET_VERSION'
-export const SET_LOCKTIME = 'SET_LOCKTIME'
+reduce('ADD_SIGNATURE', (state, { payload }) => {
+  return new Transaction(state).applySignature(payload)
+})
+
+reduce('ADD_OUTPUT', (state, { payload }) => {
+  return new Transaction(state).to(payload)
+})
+
+reduce('REMOVE_INPUT', (state, { payload }) => {
+  return new Transaction(state).removeInput(payload.txId, payload.outputIndex)
+})
+
+reduce('REMOVE_OUTPUT', (state, { payload }) => {
+  return new Transaction(state).removeOutput(payload)
+})
+
+reduce('SET_VERSION', (state, { payload }) => {
+  if (state.version !== payload) {
+    const tx = new Transaction(state)
+    tx.version = payload
+    return tx
+  }
+  return state
+})
+
+reduce('SET_LOCKTIME', (state, { payload }) => {
+  if (state.nLockTime !== payload) {
+    const tx = new Transaction(state)
+    tx.nLockTime = payload
+    return tx
+  }
+  return state
+})
+
+export default handleActions(module.exports.__reducers, new bitcore.Transaction())
+

@@ -51,7 +51,7 @@
   "license": "MIT",
   "dependencies": {
     "better-npm-run": "0.0.5",
-    "bitcore-lib": "^0.13.11",
+    "bitcore-lib": "eordano/bitcore-lib",
     "debug": "^2.2.0",
     "dotenv": "^1.2.0",
     "history": "^2.0.0-rc2",

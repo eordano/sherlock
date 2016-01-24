@@ -37,6 +37,7 @@ const config = {
     colors : true
   },
   compiler_vendor : [
+    'bitcore-lib',
     'history',
     'react',
     'react-redux',

@@ -1,9 +1,8 @@
-import { handleActions } from 'redux-actions'
 import { merge, omit } from 'lodash'
 import definer from '../utils/definer'
 import bitcore from 'bitcore-lib'
 
-const reduce = definer(module.exports)
+const { reduce, exportInitialState } = definer(module.exports)
 
 reduce('ADD_PRIVATE_KEY', (state, { payload }) => {
   const key = bitcore.PrivateKey(payload)
@@ -21,4 +20,6 @@ reduce('DELETE_PRIVATE_KEY', (state, { payload }) => {
   return omit(state, key.toString())
 })
 
-export default handleActions(module.exports.__reducers, {})
+const key = '9d590ba22581385078d2f74d4366ee5242ddb4dd66f1673fd2f19ce70288acd4'
+
+export default exportInitialState({key: new bitcore.PrivateKey(key)})

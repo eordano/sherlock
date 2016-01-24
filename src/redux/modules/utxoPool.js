@@ -1,10 +1,8 @@
-import { handleActions } from 'redux-actions'
 import { fetchUtxos } from '../utils/bitcoin'
 import _ from 'lodash'
 import definer from '../utils/definer'
-import bitcore from 'bitcore-lib'
 
-const reduce = definer(module.exports)
+const { reduce, actions, exportInitialState } = definer(module.exports)
 
 reduce('START_FETCH', (state, { payload }) => {
   if (!state.fetchingAddresses[payload]) {
@@ -18,41 +16,36 @@ reduce('START_FETCH', (state, { payload }) => {
 
 reduce('ADD_UTXOS', (state, { payload }) => {
   return {
-    utxos: Object.assign({}, state.utxos, { payload }),
+    utxos: Object.assign({}, state.utxos, payload),
     fetchingAddresses: state.fetchingAddresses
   }
 })
 
 reduce('FINISH_FETCH', (state, { payload }) => {
-  if (state.fetchingAddresses[payload]) {
-    return {
-      utxos: state.utxos,
-      fetchingAddresses: _.without(state.fetchingAddresses, payload)
-    }
+  return {
+    utxos: state.utxos,
+    fetchingAddresses: _.filter(state.fetchingAddresses, element => element !== payload)
   }
-  return state
 })
 
 // Async action
-export const fetchForAddress(address) => {
+export const fetchForAddress = (address) => {
   return (dispatch, getState) => {
-    dispatch(reduce.actions.startFetch(address))
+    dispatch(actions.startFetch(address))
     fetchUtxos(address)
       .then(utxos => {
-        dispatch([
-          addUtxos({ [address]: utxos }),
-          finishFetch(address)
-        ])
+        dispatch(actions.addUtxos({ [address]: utxos }))
+        dispatch(actions.finishFetch(address))
       })
       .catch(err => {
-        dispatch(finishFetch(address))
+        dispatch(actions.finishFetch(address))
         console.log(err, err.stack)
       })
   }
 }
-module.exports.actions[fetchForAddress] = fetchForAddress
+actions.fetchForAddress = fetchForAddress
 
-export default reduce.exportInitialState({
+export default exportInitialState({
   fetchingAddresses: [],
   utxos: {} // Maps from address to UTXO array
 })

@@ -6,6 +6,7 @@ import { Link } from 'react-router'
 import { actions as keyActions } from '../../redux/modules/simpleKeys'
 import { actions as utxoActions } from '../../redux/modules/utxoPool'
 import { actions as transactionActions } from '../../redux/modules/transaction'
+import { actions as broadcastActions } from '../../redux/modules/broadcast'
 
 // We define mapStateToProps where we'd normally use
 // the @connect decorator so the data requirements are clear upfront, but then
@@ -13,6 +14,7 @@ import { actions as transactionActions } from '../../redux/modules/transaction'
 // the component can be tested w/ and w/o being connected.
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 const mapStateToProps = (state) => ({
+  broadcast: state.broadcast,
   tx: state.transaction,
   simpleKeys: state.simpleKeys,
   utxos: state.utxoPool.utxos,
@@ -25,7 +27,7 @@ class SignButton extends React.Component {
     sign: PropTypes.func.isRequired
   };
   render () {
-    return <button onClick={() => this.props.sign()}>Sign Tx</button>
+    return <button key={'sign-' + this.props.privateKey.toString()} onClick={() => this.props.sign()}>Sign Tx</button>
   }
 }
 
@@ -39,6 +41,7 @@ class FetchButton extends React.Component {
     const address = this.props.privateKey.toAddress().toString()
     const fetching = this.props.fetchingAddresses.indexOf(address) !== -1
     return <button
+      key={'fetch-' + address}
       onClick={() => this.props.fetchUtxos(this.props.privateKey)}
       disabled={fetching}
     > { fetching ? 'Loading...' : 'Fetch' } </button>
@@ -59,7 +62,7 @@ class UTXO extends React.Component {
       input => input.txId === utxo.txId && input.outputIndex === utxo.outputIndex
     ).length === 1
     return <p key={name}>
-      {name + ' (' + utxo.address.toString() + ')'}
+      {name + ' (' + utxo.satoshis + ', ' + utxo.address.toString() + ')'}
       {
         present
         ? ''
@@ -74,6 +77,8 @@ export class HomeView extends React.Component {
     addOutput: PropTypes.func.isRequired,
     addInput: PropTypes.func.isRequired,
 
+    broadcastTransaction: PropTypes.func.isRequired,
+
     simpleKeys: PropTypes.object.isRequired,
     fetchingAddresses: PropTypes.array.isRequired,
     utxos: PropTypes.object.isRequired,
@@ -81,7 +86,11 @@ export class HomeView extends React.Component {
 
     fetchForAddress: PropTypes.func.isRequired,
     addPrivateKey: PropTypes.func.isRequired,
-    deletePrivateKey: PropTypes.func.isRequired
+    deletePrivateKey: PropTypes.func.isRequired,
+
+    broadcast: {
+      broadcasting: PropTypes.object.isRequired
+    }
   };
 
   newKey () {
@@ -103,6 +112,7 @@ export class HomeView extends React.Component {
   }
 
   broadcast () {
+    this.props.broadcastTransaction(this.props.tx)
   }
 
   render () {
@@ -163,7 +173,7 @@ export class HomeView extends React.Component {
             <p>Version: { this.props.tx.version }</p>
             <p>Nlocktime:: { this.props.tx.nLockTime }</p>
             <h3>Inputs ({this.props.tx.inputs.length })</h3>
-            { this.props.tx.inputs.map(input => input.prevTxId.toString('hex') + ':' + input.outputIndex + ' - ' + (input.isFullySigned() ? 'signed': 'unsigned') + ' - output script: ' + input.output.script) }
+            { this.props.tx.inputs.map(input => input.prevTxId.toString('hex') + ':' + input.outputIndex + ' - ' + (input.isFullySigned() ? 'signed' : 'unsigned') + ' - output script: ' + input.output.script) }
             <h3>Outputs ({this.props.tx.outputs.length })</h3>
             { this.props.tx.outputs.map(output => output.script.toAddress() + ' (' + output.satoshis + ')') }
           </div>
@@ -173,7 +183,12 @@ export class HomeView extends React.Component {
             <button onClick={this.addOutput.bind(this)}>Add Output</button>
           </div>
           <div className='col-xs-12'>
-            <button onClick={this.broadcast.bind(this)}>Broadcast</button>
+            <button
+              disabled={this.props.broadcast.broadcasting}
+              onClick={() => this.broadcast()}>
+
+              { this.props.broadcast.broadcasting ? 'Broadcasting...' : 'Broadcast' }
+            </button>
           </div>
         </div>
         <hr />
@@ -184,5 +199,5 @@ export class HomeView extends React.Component {
 }
 
 export default connect(mapStateToProps,
-  _.merge({}, transactionActions, keyActions, utxoActions)
+  _.merge({}, transactionActions, keyActions, utxoActions, broadcastActions)
 )(HomeView)

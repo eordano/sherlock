@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react'
-import '../../styles/core.scss'
-import Navbar from 'components/Navbar'
 
 // Note: Stateless/function components *will not* hot reload!
 // react-transform *only* works on component classes.
@@ -11,19 +9,8 @@ import Navbar from 'components/Navbar'
 //
 // CoreLayout is a pure function of its props, so we can
 // define it with a plain javascript function...
-function CoreLayout ({ children }) {
+function Sidebar ) {
   return (
-    <div>
-      <Navbar />
-      <div id='page-wrapper'>
-        {children}
-      </div>
-    </div>
   )
 }
 
-CoreLayout.propTypes = {
-  children: PropTypes.element
-}
-
-export default CoreLayout

@@ -15,5 +15,5 @@ const store = configureStore({ initialState, history })
 // Render the React application to the DOM
 ReactDOM.render(
   <Root history={history} routes={routes} store={store} />,
-  document.getElementById('root')
+  document.getElementById('wrapper')
 )

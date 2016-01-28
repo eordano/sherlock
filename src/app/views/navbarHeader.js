@@ -12,7 +12,7 @@ export default class NavbarHeader extends Component {
             <span className='icon-bar'></span>
             <span className='icon-bar'></span>
           </button>
-          <Link to='/' className='navbar-brand'>Local Wallet</Link>
+          <Link to='/' className='navbar-brand'>Sherlock Wallet</Link>
         </div>
         { /*
         <ul className='nav navbar-right top-nav'>

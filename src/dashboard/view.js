@@ -17,13 +17,13 @@ export class DashboardView extends React.Component {
     return <div className='container-fluid'>
       <div className='row'>
         <div className='col-lg-12'>
-          <h1 className='page-header'>Local Wallet Dashboard <small></small></h1>
+          <h1 className='page-header'>Sherlock Dashboard <small></small></h1>
         </div>
       </div>
       <div className='row'>
         <div className='col-lg-12'>
           <div className='alert alert-info alert-dismissable'>
-            <button type='button' className='close' data-dismiss='alert' aria-hidden='true'>&times;</button> <i className='fa fa-info-circle'></i> <strong>Feedback?</strong> You can <a href='mailto:eordano@gmail.com'>contact me</a> or open an <a href='https://github.com/eordano/local-wallet/issues' target='_blank'>issue on GitHub</a>. Thanks!
+            <button type='button' className='close' data-dismiss='alert' aria-hidden='true'>&times;</button> <i className='fa fa-info-circle'></i> <strong>Feedback?</strong> You can <a href='mailto:eordano@gmail.com'>contact me</a> or open an <a href='https://github.com/eordano/sherlock/issues' target='_blank'>issue on GitHub</a>. Thanks!
           </div>
         </div>
       </div>

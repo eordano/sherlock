@@ -1,6 +1,6 @@
 import definer from '../redux/definer'
 
-const { reduce, exportInitialState } = definer(module.exports)
+const { reduce, actions, exportInitialState } = definer(module.exports)
 
 reduce('START_BROADCAST', (state, { payload }) => {
   return {
@@ -20,6 +20,8 @@ reduce('BROADCAST_ERROR', (state, { payload }) => {
     error: payload
   }
 })
+
+module.exports.actions = actions
 
 export default exportInitialState({
   broadcasting: false

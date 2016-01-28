@@ -12,7 +12,7 @@ class SidebarItem extends Component {
     link: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    soon: PropTypes.bool.isValid,
+    soon: PropTypes.bool,
     current: PropTypes.string.isRequired
   };
 

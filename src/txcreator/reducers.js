@@ -13,16 +13,28 @@ reduce('ADD_SIGNATURE', (state, { payload }) => {
   return new bitcore.Transaction(state).applySignature(payload)
 })
 
+reduce('PAY_TO', (state, { payload }) => {
+  const newTx = new bitcore.Transaction(state)
+  bitcore.Transaction.prototype.to.apply(newTx, payload)
+  return newTx
+})
+
 reduce('ADD_OUTPUT', (state, { payload }) => {
-  return bitcore.Transaction.prototype.to.apply(new bitcore.Transaction(state), payload)
+  const newTx = new bitcore.Transaction(state)
+  newTx.addOutput(payload)
+  return newTx
 })
 
 reduce('REMOVE_INPUT', (state, { payload }) => {
-  return new bitcore.Transaction(state).removeInput(payload.txId, payload.outputIndex)
+  const newTx = new bitcore.Transaction(state)
+  newTx.removeInput(payload.txId, payload.outputIndex)
+  return newTx
 })
 
 reduce('REMOVE_OUTPUT', (state, { payload }) => {
-  return new bitcore.Transaction(state).removeOutput(payload)
+  const newTx = new bitcore.Transaction(state)
+  newTx.removeOutput(payload)
+  return newTx
 })
 
 reduce('SET_VERSION', (state, { payload }) => {

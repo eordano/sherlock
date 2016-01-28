@@ -1,6 +1,7 @@
 import bitcore from 'bitcore-lib'
 import fetch from 'isomorphic-fetch'
 import _ from 'lodash'
+import { actions } from './reducers'
 
 const getUtxos = (tx, address) => {
   return tx.outputs

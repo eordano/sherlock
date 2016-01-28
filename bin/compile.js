@@ -33,5 +33,5 @@ compiler.run(function (err, stats) {
   }
 
   debug('Copy static assets to dist folder.')
-  fs.copySync(paths.client('static'), paths.dist())
+  fs.copySync(paths.client('app/static'), paths.dist())
 })

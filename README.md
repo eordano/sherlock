@@ -28,6 +28,8 @@ Then, browse to [http://localhost:3000/](http://localhost:3000/)
 
 Features I'll eventually code into this:
 
+* Testnet support
+
 * BIP32 (hierarchical deterministic keys) support
   Handling of private and public keys derived from a root hd key.
 

@@ -51,12 +51,12 @@ export default class SimpleKeyOptions extends React.Component {
         <div className='col-sm-6 form-group'>
           <button
             className='btn btn-default'
-            onClick={() => this.addKey()}
+            onClick={this.addKey.bind(this)}
           >Add Key</button>
         </div>
         <div className='col-sm-6 form-group text-right'>
           <button className='btn btn-default'
-                  onClick={() => this.generateRandom()}>
+                  onClick={this.generateRandom.bind(this)}>
             Generate a random key
           </button>
         </div>

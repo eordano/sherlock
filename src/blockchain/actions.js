@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import actions from './reducers'
+import { actions } from './reducers'
 
 const doBroadcast = tx => fetch('https://api.blockcypher.com/v1/btc/main/txs/push', {
   headers: { 'Content-Type': 'application/json' },

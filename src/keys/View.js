@@ -19,15 +19,16 @@ export class KeyManagerView extends React.Component {
   render () {
     return <div className='container-fluid'>
       <div className='row'>
-        <h1><i className='fa fa-fw fa-key'></i> Key Manager</h1>
+        <div className='col-lg-12'>
+          <h1><i className='fa fa-fw fa-key'></i> Key Manager</h1>
+        </div>
       </div>
       <SimpleKeyOptions {...this.props} />
       <br/>
       <div className='row'>
-        <SimpleKeyTable keys={this.props.keys} />
-      </div>
-      <div className='row'>
-        <h2>Hierarchically Derived Keys (soon)</h2>
+        <div className='col-xs-12'>
+          <SimpleKeyTable keys={this.props.keys} />
+        </div>
       </div>
     </div>
   }

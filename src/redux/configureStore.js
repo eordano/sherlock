@@ -6,7 +6,7 @@ import rootReducer from './rootReducer'
 function withDevTools (middleware) {
   const devTools = window.devToolsExtension
     ? window.devToolsExtension()
-    : require('containers/DevTools').default.instrument()
+    : require('../app/DevTools').default.instrument()
   return compose(middleware, devTools)
 }
 

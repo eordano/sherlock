@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 
 export default class NavbarHeader extends Component {
   render () {
@@ -11,8 +12,9 @@ export default class NavbarHeader extends Component {
             <span className='icon-bar'></span>
             <span className='icon-bar'></span>
           </button>
-          <a className='navbar-brand' href='/'>Local Wallet</a>
+          <Link to='/' className='navbar-brand'>Local Wallet</Link>
         </div>
+        { /*
         <ul className='nav navbar-right top-nav'>
           <li className='dropdown'>
             <a href='#' className='dropdown-toggle' data-toggle='dropdown'><i className='fa fa-envelope'></i> <b className='caret'></b></a>
@@ -82,6 +84,7 @@ export default class NavbarHeader extends Component {
               </ul>
             </li>
           </ul>
+          */ }
       </div>
     )
   }

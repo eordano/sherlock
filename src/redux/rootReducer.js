@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux'
 import { routeReducer as router } from 'redux-simple-router'
-import simpleKeys from './modules/simpleKeys'
-import utxoPool from './modules/utxoPool'
-import transaction from './modules/transaction'
-import broadcast from './modules/broadcast'
+
+import simpleKeys from '../keys/reducers'
+import utxoPool from '../utxos/reducers'
+import transaction from '../txcreator/reducers'
+import broadcast from '../blockchain/reducers'
 
 export default combineReducers({
   broadcast,

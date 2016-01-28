@@ -1,4 +1,4 @@
-import definer from '../utils/definer'
+import definer from '../redux/definer'
 import bitcore from 'bitcore-lib'
 
 const { reduce, exportInitialState } = definer(module.exports)

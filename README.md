@@ -3,7 +3,9 @@ Sherlock Wallet
 
 A wallet for the Bitcoin connoisseur.
 
-Try it out: [https://sherlock.eordano.com](https://sherlock.eordano.com) (currently down)
+Try it out: [https://sherlock.eordano.com](https://sherlock.eordano.com)
+
+![screenshot](https://cloud.githubusercontent.com/assets/42750/12640805/c87b7cb4-c560-11e5-950c-855813c0b834.png)
 
 ## Motivation
 

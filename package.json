@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-starter-kit",
+  "name": "sherlock",
   "version": "1.0.0",
-  "description": "Get started with React, Redux, and React-Router!",
+  "description": "A wallet for the Bitcoin connoisseur",
   "main": "index.js",
   "engines": {
     "node": ">=4.2.0",
@@ -45,9 +45,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/eordano/sherlock.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": "Esteban Ordano <eordano@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "better-npm-run": "0.0.5",

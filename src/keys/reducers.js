@@ -31,13 +31,15 @@ module.exports.actions.generateRandom = () => {
   }
 }
 
-const keys = localStorage.getItem('simpleKeys')
 let initialState = {}
 
-if (keys) {
-  initialState = _.fromPairs(JSON.parse(keys).map(
-    key => [key, new bitcore.PrivateKey(key)]
-  ))
+if (localStorage) {
+  const keys = localStorage.getItem('simpleKeys')
+  if (keys) {
+    initialState = _.fromPairs(JSON.parse(keys).map(
+      key => [key, new bitcore.PrivateKey(key)]
+    ))
+  }
 }
 
 export default exportInitialState(initialState)

@@ -44,6 +44,8 @@ export class Sidebar extends Component {
                      current={this.props.current} />
         <SidebarItem link='/crafttx' icon='terminal' name='Transaction Creator'
                      current={this.props.current} />
+        <SidebarItem link='/decodetx' icon='edit' name='Transaction Inspector'
+                     current={this.props.current} />
         <SidebarItem link='/address' icon='credit-card' name='Address Manager'
                      current={this.props.current} soon />
         <SidebarItem link='/script' icon='bolt' name='Script Evaluation'
@@ -52,8 +54,6 @@ export class Sidebar extends Component {
         <SidebarItem link='/blockchain' icon='bold' name='Blockchain State'
                      current={this.props.current} soon />
         <SidebarItem link='/multisig' icon='bars' name='Multisig Address'
-                     current={this.props.current} soon />
-        <SidebarItem link='/decodetx' icon='edit' name='Transaction Decoder'
                      current={this.props.current} soon />
         <SidebarItem link='/explorer' icon='search' name='Block Explorer'
                      current={this.props.current} soon />

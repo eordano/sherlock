@@ -3,20 +3,114 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import bitcore from 'bitcore-lib'
 
+import * as fetchActions from './actions'
 import { actions as readActions } from './reducers'
+
+class Input extends Component {
+  static propTypes = {
+    input: PropTypes.object.isRequired,
+    txInfo: PropTypes.object.isRequired,
+    fetchTx: PropTypes.func.isRequired,
+    tx: PropTypes.object.isRequired,
+    inputIndex: PropTypes.number.isRequired
+  };
+
+  componentDidMount () {
+    const txId = this.props.input.prevTxId.toString('hex')
+    if (!this.props.txInfo[txId]) {
+      this.props.fetchTx(txId)
+    }
+  }
+
+  evaluate () {
+    const interpreter = new bitcore.Script.Interpreter()
+    const scriptSig = this.props.input.script
+    const prevTxId = this.props.input.prevTxId.toString('hex')
+    const pubKey = this.props.txInfo[prevTxId].outputs[this.props.input.outputIndex].script
+    const tx = this.props.tx
+    const nin = this.props.inputIndex
+
+    const result = interpreter.verify(scriptSig, pubKey, tx, nin)
+
+    return { interpreter, result }
+  }
+
+  render () {
+    const txId = this.props.input.prevTxId.toString('hex')
+    let color = 'default'
+    let evaluation
+    let scriptPubKey = ''
+
+    if (this.props.txInfo[txId] && this.props.txInfo[txId].outputs) {
+      if (this.props.input.script.chunks.length === 0) {
+        color = 'warning'
+      } else {
+        evaluation = this.evaluate()
+        if (evaluation.result) {
+          color = 'success'
+          scriptPubKey = 'ScriptPubKey: ' + this.props.txInfo[txId].outputs[this.props.input.outputIndex].script.toString()
+        } else {
+          color = 'danger'
+          scriptPubKey = <div>ScriptPubKey: <ul> {this.props.txInfo[txId].outputs[this.props.input.outputIndex].script.chunks.map((chunk, index) => {
+            if (index === evaluation.interpreter.pc - 1) {
+              return <li><strong>{bitcore.Opcode.reverseMap[chunk.opcodenum]}</strong></li>
+            }
+            return <li>{bitcore.Opcode.reverseMap[chunk.opcodenum] || chunk.buf.toString('hex')}</li>
+          })}</ul> </div>
+        }
+      }
+    }
+    const txIdPlusIndex = txId + ':' + this.props.input.outputIndex
+
+    const evalResult = evaluation && !evaluation.result
+      ? <p>Failed with code: {evaluation.interpreter.errstr}<br/>
+          At position {evaluation.interpreter.pc} ({
+            bitcore.Opcode.reverseMap[new bitcore.Script(evaluation.interpreter.script).chunks[evaluation.interpreter.pc - 1].opcodenum]
+          })</p>
+      : ''
+
+    return <div className={'panel panel-' + color} key={txIdPlusIndex}>
+        <div className='panel-heading'><small>{txIdPlusIndex}</small></div>
+        <div className='panel-body'>
+          { scriptPubKey }
+          <p>ScriptSig: { this.props.input.script.toString() }</p>
+          { evalResult }
+        </div>
+      </div>
+  }
+}
+
+class Output extends Component {
+  static propTypes = {
+    output: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired
+  };
+  render () {
+    const txIdPlusIndex = this.props.index + ' - ' + this.props.output.satoshis + ' satoshis - ' + this.props.output.script.toAddress().toString()
+    return <div className='panel panel-default'>
+      <div className='panel-heading'><small>{txIdPlusIndex}</small></div>
+      <div className='panel-body'>
+        <p>{this.props.output.script.toAddress().toString()}</p>
+        <p>{this.props.output.script.toString()}</p>
+      </div>
+    </div>
+  }
+}
 
 export class TxDecoder extends Component {
   static propTypes = {
     tx: PropTypes.object,
-    setPasted: PropTypes.func.isRequired
+    setPasted: PropTypes.func.isRequired,
+    fetchTransaction: PropTypes.func.isRequired,
+    txInfo: PropTypes.object.isRequired
   };
 
-  get txInfo() {
+  get txInfo () {
     if (!this.props.tx) {
       return ''
     }
     return <div className='col-md-6'>
-        <h2>Transaction Info</h2>
+        <h2>Transaction </h2>
         <ul>
           <li>Hash: {this.props.tx.hash}</li>
           <li>nLockTime: {this.props.tx.nLockTime}</li>
@@ -25,7 +119,7 @@ export class TxDecoder extends Component {
       </div>
   }
 
-  get blockchainInfo() {
+  get blockchainInfo () {
     if (!this.props.tx) {
       return ''
     }
@@ -37,54 +131,45 @@ export class TxDecoder extends Component {
     </div>
   }
 
-  get inputs() {
+  drawInput (input, index) {
+    return <Input input={input}
+                  fetchTx={this.props.fetchTransaction}
+                  txInfo={this.props.txInfo}
+                  tx={this.props.tx}
+                  inputIndex={index}
+    />
+  }
+
+  drawOutput (output, index) {
+    return <Output output={output} index={index}/>
+  }
+
+  get inputs () {
     if (!this.props.tx) {
       return ''
     }
     return <div className='col-md-6'>
       <h2>Inputs</h2>
-      <div className='panel panel-default'>
-        <div className='panel-heading'> 0000...0000</div>
-        <div className='panel-body'>
-          <p>Loading information...</p>
-        </div>
-      </div>
-      <div className='panel panel-success'>
-        <div className='panel-heading'> 0000...0000</div>
-        <div className='panel-body'>
-          <p>Script signature is correct</p>
-        </div>
-      </div>
-      <div className='panel panel-warning'>
-        <div className='panel-heading'> 0000...0000</div>
-        <div className='panel-body'>
-          <p>Script empty</p>
-        </div>
-      </div>
-      <div className='panel panel-danger'>
-        <div className='panel-heading'> 0000...0000</div>
-        <div className='panel-body'>
-          <p>Incorrect script</p>
-        </div>
-      </div>
+      { this.props.tx.inputs.map((input, index) => this.drawInput(input, index)) }
     </div>
   }
 
-  get outputs() {
+  get outputs () {
     if (!this.props.tx) {
       return ''
     }
     return <div className='col-md-6'>
       <h2>Outputs</h2>
+      { this.props.tx.outputs.map((output, index) => this.drawOutput(output, index)) }
     </div>
   }
 
-  paste(ev) {
+  paste (ev) {
     ev.preventDefault()
     this.props.setPasted(this.refs.rawtx.value)
   }
 
-  render() {
+  render () {
     return <div className='container-fluid'>
       <div className='row'>
         <div className='col-lg-12'>
@@ -113,7 +198,9 @@ export class TxDecoder extends Component {
 }
 
 const mapStateToProps = state => ({
-  tx: state.txread.tx
+  tx: state.txread.tx,
+  txInfo: state.txread.txInfo,
+  txBlockchain: state.txread.blockchain
 })
 
-export default connect(mapStateToProps, _.merge({}, readActions))(TxDecoder)
+export default connect(mapStateToProps, _.merge({}, readActions, fetchActions))(TxDecoder)

@@ -5,7 +5,8 @@ A wallet for the Bitcoin connoisseur.
 
 Try it out: [https://sherlock.eordano.com](https://sherlock.eordano.com)
 
-![screenshot](https://cloud.githubusercontent.com/assets/42750/12640805/c87b7cb4-c560-11e5-950c-855813c0b834.png)
+![screenshot2](https://cloud.githubusercontent.com/assets/42750/12878736/782cdf1a-cdde-11e5-94f4-cc47f8972ffe.png)
+![screenshot1](https://cloud.githubusercontent.com/assets/42750/12640805/c87b7cb4-c560-11e5-950c-855813c0b834.png)
 
 ## Motivation
 

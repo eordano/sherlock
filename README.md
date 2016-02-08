@@ -47,9 +47,6 @@ Features I'll eventually code into this:
 * Script evaluation
   Evaluate a script and debug the stack on each step of the execution.
 
-* Transaction decoder
-  A way to visualize a transaction easily and with all the data available.
-
 * Blockchain explorer
   Explore blocks, fetch merkle proofs, navigate through transactions, blocks, addresses.
 

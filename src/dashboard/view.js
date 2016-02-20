@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 
 import actions from '../blockchain/actions'
 
@@ -10,7 +9,7 @@ import Panel from './panel'
 const mapStateToProps = state => ({
   keys: state.simpleKeys,
   tx: state.transaction,
-  blockchain: state.broadcast.blockchain
+  blockchain: state.blockchain.blockchain
 })
 
 export class DashboardView extends React.Component {
@@ -21,7 +20,7 @@ export class DashboardView extends React.Component {
     blockchain: PropTypes.object
   };
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchBlockchainState()
   }
 
@@ -40,26 +39,24 @@ export class DashboardView extends React.Component {
         </div>
       </div>
       <div className='row'>
-        <div className='col-lg-3 col-md-6'>
-          <Panel
-              color='primary'
-              icon='key'
-              value={_.size(this.props.keys)}
-              text='Keys controlled'
-              action='Manage'
-              link='keys'
-          />
-          <Panel
-              color='success'
-              icon='link'
-              value={this.props.blockchain
-                ? this.props.blockchain.height
-                : <i className='fa fa-spinner' /> }
-              text='Block height'
-              action='Blockchain status'
-              link='blockchain'
-          />
-        </div>
+        <Panel
+            color='primary'
+            icon='key'
+            value={_.size(this.props.keys)}
+            text='Keys controlled'
+            action='Manage'
+            link='keys'
+        />
+        <Panel
+            color='primary'
+            icon='link'
+            value={this.props.blockchain
+              ? this.props.blockchain.height
+              : <i className='fa fa-spinner' /> }
+            text='Block height'
+            action='Blockchain state'
+            link='blockchain'
+        />
       </div>
     </div>
   }

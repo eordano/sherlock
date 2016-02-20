@@ -1,21 +1,22 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import Loading from '../components/loading'
 import actions from './actions'
 
 class BlockchainView extends React.Component {
-  static propTypes: {
-    blockchain: PropTypes.object
+  static propTypes = {
+    blockchain: PropTypes.object,
+    fetchBlockchainState: PropTypes.func.isRequired
   };
 
-  componentDidMount() {
+  componentDidMount () {
     if (!this.props.blockchain) {
       this.props.fetchBlockchainState()
     }
   }
 
-  render() {
+  render () {
     if (!this.props.blockchain) {
       return <Loading />
     }

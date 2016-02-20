@@ -197,6 +197,8 @@ export class TxDecoder extends Component {
       <div className='row'>
         { this.txInfo }
         { this.blockchainInfo }
+      </div>
+      <div className='row'>
         { this.inputs }
         { this.outputs }
       </div>

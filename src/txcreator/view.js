@@ -316,7 +316,7 @@ class Outputs extends Component {
 class Broadcast extends Component {
   static propTypes = {
     tx: PropTypes.object.isRequired,
-    broadcast: PropTypes.object.isRequired,
+    blockchain: PropTypes.object.isRequired,
     broadcastTransaction: PropTypes.func.isRequired
   };
   broadcast () {
@@ -329,7 +329,7 @@ class Broadcast extends Component {
         (this.props.tx.inputs.length === 0) || !this.props.tx.isFullySigned()
       }
       onClick={this.broadcast.bind(this)}>
-      { this.props.broadcast.broadcasting ? 'Broadcasting...' : 'Broadcast' }
+      { this.props.blockchain.broadcasting ? 'Broadcasting...' : 'Broadcast' }
     </button>
   }
 }
@@ -354,7 +354,7 @@ export class TxCreator extends Component {
 
     fetchForAddress: PropTypes.func.isRequired,
 
-    broadcast: PropTypes.object.isRequired
+    blockchain: PropTypes.object.isRequired
   };
 
   fetchUtxos (key) {
@@ -401,7 +401,7 @@ export class TxCreator extends Component {
       <div className='text-center'>
         <Broadcast tx={this.props.tx}
                    broadcastTransaction={this.props.broadcastTransaction}
-                   broadcast={this.props.broadcast}
+                   blockchain={this.props.blockchain}
         />
       </div>
     </div>
@@ -409,7 +409,7 @@ export class TxCreator extends Component {
 }
 
 const mapStateToProps = state => ({
-  broadcast: state.broadcast,
+  blockchain: state.blockchain,
   tx: state.transaction,
   simpleKeys: state.simpleKeys,
   addressToKey: _.transform(state.simpleKeys, (result, value) => {

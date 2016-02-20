@@ -40,18 +40,18 @@ export class Sidebar extends Component {
       <ul className='nav navbar-nav side-nav'>
         <SidebarItem link='/' icon='dashboard' name='Dashboard'
                      current={this.props.current} />
+        <SidebarItem link='/blockchain' icon='bold' name='Blockchain State'
+                     current={this.props.current} />
         <SidebarItem link='/keys' icon='key' name='Key Manager'
                      current={this.props.current} />
         <SidebarItem link='/crafttx' icon='terminal' name='Transaction Creator'
                      current={this.props.current} />
         <SidebarItem link='/decodetx' icon='edit' name='Transaction Inspector'
                      current={this.props.current} />
-        <SidebarItem link='/address' icon='credit-card' name='Address Manager'
-                     current={this.props.current} soon />
         <SidebarItem link='/script' icon='bolt' name='Script Evaluation'
                      current={this.props.current} soon />
                      { /*
-        <SidebarItem link='/blockchain' icon='bold' name='Blockchain State'
+        <SidebarItem link='/address' icon='credit-card' name='Address Manager'
                      current={this.props.current} soon />
         <SidebarItem link='/multisig' icon='bars' name='Multisig Address'
                      current={this.props.current} soon />

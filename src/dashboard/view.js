@@ -3,16 +3,28 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
+import actions from '../blockchain/actions'
+
+import Panel from './panel'
+
 const mapStateToProps = state => ({
   keys: state.simpleKeys,
-  tx: state.transaction
+  tx: state.transaction,
+  blockchain: state.broadcast.blockchain
 })
 
 export class DashboardView extends React.Component {
   static propTypes = {
     keys: PropTypes.object.isRequired,
-    tx: PropTypes.object.isRequired
+    tx: PropTypes.object.isRequired,
+    fetchBlockchainState: PropTypes.func.isRequired,
+    blockchain: PropTypes.object
   };
+
+  componentDidMount() {
+    this.props.fetchBlockchainState()
+  }
+
   render () {
     return <div className='container-fluid'>
       <div className='row'>
@@ -29,30 +41,30 @@ export class DashboardView extends React.Component {
       </div>
       <div className='row'>
         <div className='col-lg-3 col-md-6'>
-          <div className='panel panel-primary'>
-            <div className='panel-heading'>
-              <div className='row'>
-                <div className='col-xs-3'>
-                  <i className='fa fa-comments fa-5x'></i>
-                </div>
-                <div className='col-xs-9 text-right'>
-                  <div className='huge'>{_.size(this.props.keys)}</div>
-                  <div>Keys controlled</div>
-                </div>
-              </div>
-            </div>
-            <Link to='/keys'>
-              <div className='panel-footer'>
-                <span className='pull-left'>Manage</span>
-                <span className='pull-right'><i className='fa fa-arrow-circle-right'></i></span>
-                <div className='clearfix'></div>
-              </div>
-            </Link>
-          </div>
+          <Panel
+              color='primary'
+              icon='key'
+              value={_.size(this.props.keys)}
+              text='Keys controlled'
+              action='Manage'
+              link='keys'
+          />
+          <Panel
+              color='success'
+              icon='link'
+              value={this.props.blockchain
+                ? this.props.blockchain.height
+                : <i className='fa fa-spinner' /> }
+              text='Block height'
+              action='Blockchain status'
+              link='blockchain'
+          />
         </div>
       </div>
     </div>
   }
 }
 
-export default connect(mapStateToProps)(DashboardView)
+export default connect(mapStateToProps,
+  { fetchBlockchainState: actions.fetchBlockchainState }
+)(DashboardView)

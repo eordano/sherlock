@@ -23,6 +23,21 @@ export const broadcastTransaction = (transaction) => {
   }
 }
 
+export const fetchBlockchainState = () => {
+  return (dispatch, getState) => {
+    dispatch(actions.startFetch())
+    fetch('https://api.blockcypher.com/v1/btc/main')
+      .then(state => {
+        state.json().then(body => dispatch(actions.fetchSuccessful(body)))
+      })
+      .catch(err => {
+        dispatch(actions.fetchError(err))
+        console.log(err, err.stack)
+      })
+  }
+}
+
 export default {
-  broadcastTransaction
+  broadcastTransaction,
+  fetchBlockchainState
 }

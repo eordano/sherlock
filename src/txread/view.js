@@ -30,7 +30,14 @@ class Input extends Component {
     const tx = this.props.tx
     const nin = this.props.inputIndex
 
-    const result = interpreter.verify(scriptSig, pubKey, tx, nin)
+    const result = interpreter.verify(scriptSig, pubKey, tx, nin,
+      [
+        'SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY',
+        'SCRIPT_VERIFY_DERSIG',
+        'SCRIPT_VERIFY_STRICTENC',
+        'SCRIPT_VERIFY_P2SH'
+      ].reduce((prev, el) => prev + bitcore.Script.Interpreter[el], 0)
+    )
 
     return { interpreter, result }
   }

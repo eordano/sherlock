@@ -24,6 +24,7 @@
 
   #page-wrapper {
     padding-top: 50px;
+    min-height: 1080px;
   }
 
   .blockchain {
@@ -33,5 +34,9 @@
     .title  {
       font-weight: 600;
     }
+  }
+
+  .message-preview .empty {
+    padding: 20px 15px 5px 15px;
   }
 }

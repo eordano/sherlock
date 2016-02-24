@@ -13,7 +13,7 @@ import Navbar from 'app/views/Navbar'
 // define it with a plain javascript function...
 function CoreLayout ({ children }) {
   return (
-    <div>
+    <div style={ { minHeight: '100%' } }>
       <Navbar />
       <div id='page-wrapper'>
         {children}

@@ -55,8 +55,9 @@ class NotificationsWidget extends React.Component {
 
   render () {
     return <li className='dropdown'>
-      <a href='#' className='dropdown-toggle' data-toggle='dropdown'><i className='fa fa-bell'></i> <b className='caret'></b></a>
-      <ul className='dropdown-menu message-dropdown'>
+      <a href='#' className='dropdown-toggle'
+         data-toggle='dropdown'><i className='fa fa-bell'></i> <b className='caret'></b></a>
+      <ul className='dropdown-menu message-dropdown dropdown-menu-right'>
         { this.notifications() }
       </ul>
     </li>

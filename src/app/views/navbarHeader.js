@@ -28,18 +28,18 @@ class NavbarHeader extends Component {
     return (
       <div>
         <div className='navbar-header'>
-          <button type='button' className='navbar-toggle' data-toggle='collapse' data-target='.navbar-ex1-collapse'>
+          <Link to='/' className='navbar-brand'><i className='fa fa-eye' /> Sherlock Wallet</Link>
+          <button type='button' className='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapsable'>
             <span className='sr-only'>Toggle navigation</span>
             <span className='icon-bar'></span>
             <span className='icon-bar'></span>
             <span className='icon-bar'></span>
           </button>
-          <Link to='/' className='navbar-brand'><i className='fa fa-eye' /> Sherlock Wallet</Link>
+          <ul className='nav pull-right navbar-right top-nav'>
+            { this.notificationsWidget() }
+            { this.testnetSwitch() }
+          </ul>
         </div>
-        <ul className='nav navbar-right top-nav'>
-          { this.notificationsWidget() }
-          { this.testnetSwitch() }
-        </ul>
         { /*
           <li className='dropdown'>
             <a href='#' className='dropdown-toggle' data-toggle='dropdown'><i className='fa fa-bell'></i> <b className='caret'></b></a>

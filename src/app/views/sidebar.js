@@ -36,7 +36,7 @@ export class Sidebar extends Component {
   };
 
   render () {
-    return <div className='collapse navbar-collapse navbar-ex1-collapse'>
+    return <div className='collapse navbar-collapse navbar-collapsable'>
       <ul className='nav navbar-nav side-nav'>
         <SidebarItem link='/' icon='dashboard' name='Dashboard'
                      current={this.props.current} />

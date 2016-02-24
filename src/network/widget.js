@@ -10,7 +10,7 @@ class NetworkWidget extends React.Component {
       <a href='#' className='dropdown-toggle' data-toggle='dropdown'>
         <i className='fa fa-wrench' />
       </a>
-      <ul className='dropdown-menu alert-dropdown'>
+      <ul className='dropdown-menu dropdown-menu-right alert-dropdown'>
         <li>
           <a href='#'>Enable testnet mode</a>
         </li>

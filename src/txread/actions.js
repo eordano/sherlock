@@ -3,7 +3,7 @@ import { actions } from './reducers'
 import bitcore from 'bitcore-lib'
 
 const requestTx = txId => {
-  return fetch('https://insight.bitpay.com/api/rawtx/' + txId)
+  return fetch('https://test-insight.bitpay.com/api/rawtx/' + txId)
     .then(res => res.json())
     .then(tx => new bitcore.Transaction(tx.rawtx))
 }

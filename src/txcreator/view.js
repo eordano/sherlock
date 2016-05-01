@@ -385,18 +385,20 @@ export class TxCreator extends Component {
                  fetchForAddress={this.props.fetchForAddress}
                  addInput={this.props.addInput}
                  removeInput={this.props.removeInput} />
-      <div className='col-xs-12'>
-        <Inputs
-              tx={this.props.tx}
-              addSignature={this.props.addSignature}
-              addressToKey={this.props.addressToKey}
-        />
-      </div>
-      <div className='col-xs-12'>
-        <Outputs tx={this.props.tx}
-                 addOutput={this.props.addOutput}
-                 payTo={this.props.payTo}
-                 removeOutput={this.props.removeOutput} />
+      <div className='row'>
+        <div className='col-xs-12 col-md-6'>
+          <Inputs
+                tx={this.props.tx}
+                addSignature={this.props.addSignature}
+                addressToKey={this.props.addressToKey}
+          />
+        </div>
+        <div className='col-xs-12 col-md-6'>
+          <Outputs tx={this.props.tx}
+                  addOutput={this.props.addOutput}
+                  payTo={this.props.payTo}
+                  removeOutput={this.props.removeOutput} />
+        </div>
       </div>
       <div className='text-center'>
         <Broadcast tx={this.props.tx}

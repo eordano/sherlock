@@ -66,10 +66,10 @@
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.0-rc5",
+    "react-redux-router": "^4.0.0",
     "redux": "^3.0.0",
     "redux-actions": "^0.9.0",
     "redux-saga": "^0.9.1",
-    "redux-simple-router": "^2.0.2",
     "redux-thunk": "^1.0.0",
     "url": "^0.11.0",
     "yargs": "^3.18.0"
